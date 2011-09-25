@@ -12,7 +12,7 @@ var globalRules =
     , {type: 'expr', name: 'js_body'}
     , {type: 'symbol', value: '.'}
     ]
-  , resultType: 'stat'
+  , resultType: 'expr'
   , immediately: function(rules, opts) {
       var self = this
       console.log('DBG: '+opts[0].value+','+opts[1].value)
@@ -37,6 +37,42 @@ var globalRules =
       grammar = grammar.value.split(' ')
       var fnargs = grammar.filter(function(token){return token[0]==='$'})
       return 'var '+this.fnname+' = function('+fnargs.join(', ')+') { return '+js_body.value+' };\n'
+    }
+  }
+, { tokens:
+    [ {type: 'symbol', value: 'define'}
+    , {type: 'expr', name: 'grammar'}
+    , {type: 'symbol', value: 'as'}
+    , {type: 'symbol', value: 'native'}
+    , {type: 'symbol', value: 'statement'}
+    , {type: 'expr', name: 'js_body'}
+    , {type: 'symbol', value: '.'}
+    ]
+  , resultType: 'stat'
+  , immediately: function(rules, opts) {
+      var self = this
+      console.log('DBG: '+opts[0].value+','+opts[1].value)
+      var tokens = opts[0].value.split(' ').map(function(grammarPart) {
+        if (grammarPart[0] === '$')
+          return {type: 'expr', name: grammarPart}
+        else
+          return {type: 'symbol', value: grammarPart}
+      }).concat([{type: 'symbol', value: '.'}])
+      function compile(opts) {
+        opts = opts.map(function(option) {
+          return option.compile ? option.compile(option.opts) : option.value
+        }).join(', ')
+        return self.fnname+'('+opts+')'
+      }
+      rules.push({tokens: tokens, resultType: 'expr', compile: compile})
+    }
+  , compile: function(opts) {
+      var grammar = opts[0]
+        , js_body = opts[1]
+      this.fnname = grammar.value.replace(/ /g, '_')
+      grammar = grammar.value.split(' ')
+      var fnargs = grammar.filter(function(token){return token[0]==='$'})
+      return 'var '+this.fnname+' = function('+fnargs.join(', ')+') { '+js_body.value+' };\n'
     }
   }
 ]

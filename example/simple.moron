@@ -1,2 +1,3 @@
 define "$str splitted at $delimiter" as native expression "$str.split($delimiter)".
-"foo|bar|baz+abc|def|ghi" splitted at "+" splitted at "|".
+define "print $str" as native statement "console.log($str)".
+print "foo|bar|baz" splitted at "|".
