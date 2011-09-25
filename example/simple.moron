@@ -1,0 +1,2 @@
+define "split $str at $delimiter" as native expression "$str.split($delimiter)".
+split "foo|bar|baz" at "|".
