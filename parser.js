@@ -24,7 +24,7 @@ var globalRules =
       })
       function compile(opts) {
         opts = opts.map(function(option) {
-          return option.compile ? option.compile() : option.value
+          return option.compile ? option.compile(option.opts) : option.value
         }).join(', ')
         return self.fnname+'('+opts+')'
       }

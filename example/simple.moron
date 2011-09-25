@@ -1,2 +1,2 @@
-define "split $str at $delimiter" as native expression "$str.split($delimiter)".
-split "foo|bar|baz" at "|".
+define "$str splitted at $delimiter" as native expression "$str.split($delimiter)".
+"foo|bar|baz+abc|def|ghi" splitted at "+" splitted at "|".
