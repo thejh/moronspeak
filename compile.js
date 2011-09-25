@@ -7,4 +7,4 @@ var lex = require('./lexer')
 
 var code = fs.readFileSync(process.argv[2]+'.moron', 'utf8')
 code = compile(parse(lex(code)))
-fs.writeFileSync(process.argv[2]+'.js', code)
+fs.writeFileSync(process.argv[2]+'.js', code+'\n')
