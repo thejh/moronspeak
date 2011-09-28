@@ -18,8 +18,9 @@ function lex(code) {
       if (line.slice(0, 2) === '//') return false;
       return true;
     }).map(function(line) {
-      var prePad = /^ */.exec(line.code)[0].length
-      return {indent: prePad, code: line.code.slice(prePad)}
+      line.indent = /^ */.exec(line.code)[0].length
+      line.code = line.code.slice(line.indent)
+      return line
     })
   })()
   
