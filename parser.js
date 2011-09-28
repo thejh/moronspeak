@@ -123,6 +123,10 @@ var globalRules =
       return '/* native literal definition */\n'
     }
   }
+, { tokens: [ { type: 'symbol', value: 'it' } ]
+  , resultType: 'expr'
+  , compile: function() { return 'it' }
+  }
 ]
 
 function parse(tokens, rules) {
