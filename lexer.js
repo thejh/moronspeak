@@ -52,13 +52,17 @@ function lex(code) {
 }
 
 function lexLine(code) {
+  var pseudoIndented = false
+
   // types: string,name,number,symbol
   function charType(char, nextChar, lastType) {
     var symbols = ['!', '.', '<', '>', '=', ',', '+', '-', '*', '/'];
-    var strSymbols = ["'", '"', '`']
+    var strSymbols = ["'", '"']
     var nameChar = /[a-zA-Z_äöüÄÖÜß]/
     if (char === ' ')
       return 'none'
+    if (char === '`')
+      return (pseudoIndented = !pseudoIndented) ? 'indent' : 'outdent'
     if (~strSymbols.indexOf(char))
       return 'string'
     if (nameChar.test(char))
@@ -89,7 +93,7 @@ function lexLine(code) {
     if (code.slice(i, i+2) === '//') return tokens
     lastType = currentType
     currentType = charType(code[i], code[i+1], lastType)
-    if (currentType === lastType && currentType !== 'symbol' && currentType !== 'string') {
+    if (currentType === lastType && currentType !== 'symbol' && currentType !== 'indent' && currentType !== 'string') {
       part += code[i]
     } else {
       if (lastType !== 'none')
