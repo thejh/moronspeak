@@ -31,9 +31,9 @@ function lex(code) {
       var indent = line.indent
       if (indent > last(indentStack))
         indentStack.push(indent)
-      while (indent > last(indentStack)) indentStack.pop()
+      while (indent < last(indentStack)) indentStack.pop()
       if (indent !== last(indentStack))
-        throw new Error('invalid outdent on line '+line.row)
+        throw new Error('invalid outdent on line '+line.row+' (actual: '+indent+', expected: '+last(indentStack)+')')
       line.level = indentStack.length
     })
   })()
