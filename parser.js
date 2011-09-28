@@ -39,6 +39,7 @@ var globalRules =
       return 'var '+this.fnname+' = function('+fnargs.join(', ')+') { return '+js_body.value+' };\n'
     }
   }
+// "define x as native statement y."
 , { tokens:
     [ {type: 'symbol', value: 'define'}
     , {type: 'expr', name: 'grammar'}
@@ -75,6 +76,7 @@ var globalRules =
       return 'var '+this.fnname+' = function('+fnargs.join(', ')+') { '+js_body.value+' };\n'
     }
   }
+// "define x as native y literal z."
 , { tokens:
     [ {type: 'symbol', value: 'define'}
     , {type: 'expr', name: 'grammar'}
