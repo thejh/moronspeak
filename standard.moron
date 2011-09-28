@@ -1,3 +1,4 @@
 define "$$a equals $$b" as native "expr" literal "$$a === $$b".
 define "$$a doesnt equal $$b" as native "expr" literal "$$a !== $$b".
 define "if $condition _block" as native "stat" literal "if ($condition) {_block}".
+define "$arrayToMap mapped using _mapFunction" as native "expr" literal "$arrayToMap.map(function(it){_mapFunction})".
