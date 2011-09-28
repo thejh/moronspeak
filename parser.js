@@ -92,10 +92,13 @@ var globalRules =
       var self = this
       var nameOptPairs = []
       var tokens = opts[0].value.split(' ').map(function(grammarPart) {
-        if (grammarPart[0] === '$') {
+        if (grammarPart[0] === '$') { // variable
           nameOptPairs.push({name: grammarPart, index: nameOptPairs.length})
           return {type: 'expr', name: grammarPart}
-        } else
+        } else if (grammarPart[0] === '_') { // block
+          nameOptPairs.push({name: grammarPart, index: nameOptPairs.length})
+          return {type: 'block', name: grammarPart}
+        } else // symbol
           return {type: 'symbol', value: grammarPart}
       })
       var js_body = opts[2].value
@@ -136,6 +139,21 @@ function parse(tokens, rules) {
   }
   
   function attemptReduce() {
+    if (parserState[parserState.length-1].type === 'outdent') {
+      (function() {
+        parserState.pop()
+        var blockContents = []
+        // the inner blocks will already be collapsed
+        while (parserState[parserState.length-1].type !== 'indent')
+          blockContents.unshift(parserState.pop())
+        parserState.pop()
+        console.log('found BLOCK with '+blockContents.length+' children')
+        parserState.push({compile: function() {
+          return compile(blockContents)
+        }, type: 'block'})
+      })()
+      return true
+    }
     // for each grammar entry, look whether types and keywords match the end of
     // the parser state
     var matchingRules = rules.filter(function(rule) {
