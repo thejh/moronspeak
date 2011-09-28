@@ -1,4 +1,6 @@
 define "$str splitted at $delimiter" as native expression "$str.split($delimiter)".
 define "print $message ." as native "stat" literal "console.log($message)".
 print "foo|bar|baz" splitted at "|".
-print "abc" equals "def".
+if "abc" equals "def"
+  print "oh noes!".
+  print "that can't be!".
