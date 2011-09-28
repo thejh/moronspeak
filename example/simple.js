@@ -2,4 +2,5 @@ var $str_splitted_at_$delimiter = function($str, $delimiter) { return $str.split
 ;
 /* native literal definition */
 ;
-console.log($str_splitted_at_$delimiter("foo|bar|baz", "|"))
+console.log($str_splitted_at_$delimiter("foo|bar|baz", "|"));
+console.log("abc" === "def")

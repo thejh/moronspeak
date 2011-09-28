@@ -124,10 +124,10 @@ var globalRules =
   }
 ]
 
-function parse(tokens) {
+function parse(tokens, rules) {
   tokens = tokens.concat()
   var parserState = []
-    , rules = globalRules.concat()
+  rules = rules || globalRules.concat()
   
   function shift() {
     parserState.push(tokens.shift())
@@ -178,7 +178,7 @@ function parse(tokens) {
     shift()
     while (attemptReduce());
   }
-  return parserState
+  return {nodes: parserState, rules: rules}
 }
 
 function compile(nodes) {
