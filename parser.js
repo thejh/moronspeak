@@ -103,10 +103,6 @@ var globalRules =
       })
       var js_body = opts[2].value
       function compile(opts) {
-        /*opts = opts.map(function(option) {
-          return option.compile ? option.compile(option.opts) : option.value
-        }).join(', ')
-        return self.fnname+'('+opts+')'*/
         var resultBody = js_body
         nameOptPairs.forEach(function(nameOptPair) {
           console.log("name-optpair-handler")

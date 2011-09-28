@@ -118,5 +118,3 @@ function lexLine(code) {
 }
 
 function last(arr) { return arr[arr.length - 1] }
-
-// console.log(lex(require('fs').readFileSync('example/example.moron', 'utf8')))
