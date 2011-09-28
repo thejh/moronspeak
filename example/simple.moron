@@ -1,6 +1,12 @@
 define "$str splitted at $delimiter" as native expression "$str.split($delimiter)".
+define "$str uppercased" as native expression "$str.toUpperCase()".
 define "print $message ." as native "stat" literal "console.log($message)".
 print "foo|bar|baz" splitted at "|".
 if "abc" equals "def"
   print "oh noes!".
   print "that can't be!".
+if "abc" doesnt equal "def"
+  print "yay, the universe still works!".
+print "foo|bar|baz" splitted at "|" mapped using
+  it uppercased
+.
