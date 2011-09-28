@@ -75,6 +75,53 @@ var globalRules =
       return 'var '+this.fnname+' = function('+fnargs.join(', ')+') { '+js_body.value+' };\n'
     }
   }
+, { tokens:
+    [ {type: 'symbol', value: 'define'}
+    , {type: 'expr', name: 'grammar'}
+    , {type: 'symbol', value: 'as'}
+    , {type: 'symbol', value: 'native'}
+    , {type: 'expr', name: 'type'}
+    , {type: 'symbol', value: 'literal'}
+    , {type: 'expr', name: 'js_body'}
+    , {type: 'symbol', value: '.'}
+    ]
+  , resultType: 'none'
+  , immediately: function(rules, opts) {
+      var self = this
+      var nameOptPairs = []
+      var tokens = opts[0].value.split(' ').map(function(grammarPart) {
+        if (grammarPart[0] === '$') {
+          nameOptPairs.push({name: grammarPart, index: nameOptPairs.length})
+          return {type: 'expr', name: grammarPart}
+        } else
+          return {type: 'symbol', value: grammarPart}
+      })
+      var js_body = opts[2].value
+      function compile(opts) {
+        /*opts = opts.map(function(option) {
+          return option.compile ? option.compile(option.opts) : option.value
+        }).join(', ')
+        return self.fnname+'('+opts+')'*/
+        var resultBody = js_body
+        nameOptPairs.forEach(function(nameOptPair) {
+          console.log("name-optpair-handler")
+          var optNode = opts[nameOptPair.index]
+          var compiledOpt = optNode.compile(optNode.opts)
+          // FIXME this breaks horribly if the name gets used for something else, too
+          while (~resultBody.indexOf(nameOptPair.name)) {
+            console.log("replace: "+nameOptPair.name+" in: "+resultBody)
+            resultBody = resultBody.replace(nameOptPair.name, compiledOpt)
+          }
+          console.log("name-optpair-handler over")
+        })
+        return resultBody
+      }
+      rules.push({tokens: tokens, resultType: opts[1].value, compile: compile})
+    }
+  , compile: function(opts) {
+      return '/* native literal definition */\n'
+    }
+  }
 ]
 
 function parse(tokens) {

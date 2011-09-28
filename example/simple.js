@@ -1,5 +1,5 @@
 var $str_splitted_at_$delimiter = function($str, $delimiter) { return $str.split($delimiter) };
 ;
-var print_$str = function($str) { console.log($str) };
+/* native literal definition */
 ;
-print_$str($str_splitted_at_$delimiter("foo|bar|baz", "|"))
+console.log($str_splitted_at_$delimiter("foo|bar|baz", "|"))
