@@ -102,6 +102,8 @@ function lexLine(code) {
           while (code[i] !== quoteType) {
             if (code[i] === '\\') i++
             i++
+            if (i >= code.length)
+              throw new SyntaxError("unterminated string!")
           }
           return eval(code.slice(start, i+1))
         })()
