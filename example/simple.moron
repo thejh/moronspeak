@@ -5,8 +5,6 @@ print "foo|bar|baz" splitted at "|".
 if "abc" equals "def"
   print "oh noes!".
   print "that can't be!".
-if "abc" doesnt equal "def"
-  print "yay, the universe still works!".
-print "foo|bar|baz" splitted at "|" mapped using
-  it uppercased
 .
+if "abc" doesnt equal "def" `print "yay, the universe still works!".`.
+print "foo|bar|baz" splitted at "|" mapped using `it uppercased`.
